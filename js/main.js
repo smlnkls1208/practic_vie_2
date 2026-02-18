@@ -19,6 +19,7 @@ Vue.component('card-component', {
                 <task-component v-for="(task, idx) in card.tasks" :key="idx" :task="task" :disabled="isBlocked" @task-updated="$emit('task-updated')"></task-component>
             </ul>
             <button v-if="!isBlocked && card.tasks.length < 5" @click="$emit('add-task', columnIndex, card.id)">Добавить пункт</button>
+            <p v-if="card.completedAt" class="completed-time">Завершено: {{ card.completedAt }}</p>
         </div>
     `
 })
