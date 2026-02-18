@@ -10,19 +10,16 @@
 <body>
 <div id="app">
     <div class="columns">
-        <div v-for="(column, index) in columns" :key="index" class="column">
-            <h2>{{ column.title }} ({{ column.cards.length }})</h2>
-            <card-component
-                v-for="card in column.cards"
-                :key="card.id"
-                :card="card"
-                :column-index="index"
-                :is-blocked="index === 0 && isFirstColumnBlocked"
-                @add-task="addTask"
-                @task-updated="updateColumns(index, card.id)">
-            </card-component>
-            <button v-if="index === 0 && column.cards.length < 3 && !isFirstColumnBlocked" @click="addCard">Добавить карточку</button>
-        </div>
+        <column-component
+            v-for="(column, index) in columns"
+            :key="index"
+            :column="column"
+            :column-index="index"
+            :is-blocked="index === 0 && isFirstColumnBlocked"
+            @add-card="addCard"
+            @add-task="addTask"
+            @task-updated="updateColumns">
+        </column-component>
     </div>
 </div>
 </body>

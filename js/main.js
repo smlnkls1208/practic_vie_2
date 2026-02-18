@@ -24,6 +24,25 @@ Vue.component('card-component', {
     `
 })
 
+Vue.component('column-component', {
+    props: ['column', 'columnIndex', 'isBlocked'],
+    template: `
+        <div class="column">
+            <h2>{{ column.title }} ({{ column.cards.length }})</h2>
+            <card-component
+                v-for="card in column.cards"
+                :key="card.id"
+                :card="card"
+                :column-index="columnIndex"
+                :is-blocked="isBlocked"
+                @add-task="(colIdx, cardId) => $emit('add-task', colIdx, cardId)"
+                @task-updated="(colIdx, cardId) => $emit('task-updated', colIdx, cardId)">
+            </card-component>
+            <button v-if="columnIndex === 0 && column.cards.length < 3 && !isBlocked" @click="$emit('add-card')">Добавить карточку</button>
+        </div>
+    `
+})
+
 new Vue({
     el: '#app',
     data() {
