@@ -15,7 +15,12 @@
             <div v-for="card in column.cards" :key="card.id" class="card">
                 <h3>{{ card.title }}</h3>
                 <ul>
-                    <li v-for="(task, idx) in card.tasks" :key="idx">{{ task.text }}</li>
+                    <li v-for="(task, idx) in card.tasks" :key="idx">
+                        <label>
+                            <input type="checkbox" v-model="task.completed">
+                            {{ task.text }}
+                        </label>
+                    </li>
                 </ul>
                 <button @click="addTask(index, card.id)">Добавить пункт</button>
             </div>
