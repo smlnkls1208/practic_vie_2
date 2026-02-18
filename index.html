@@ -17,6 +17,7 @@
                 :key="card.id"
                 :card="card"
                 :column-index="index"
+                :is-blocked="index === 0 && isFirstColumnBlocked"
                 @add-task="addTask"
                 @task-updated="updateColumns(index, card.id)">
             </card-component>

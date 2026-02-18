@@ -1,9 +1,9 @@
 Vue.component('task-component', {
-    props: ['task'],
+    props: ['task', 'disabled'],
     template: `
         <li>
             <label>
-                <input type="checkbox" v-model="task.completed" @change="$emit('task-updated')">
+                <input type="checkbox" v-model="task.completed" :disabled="disabled" @change="$emit('task-updated')">
                 {{ task.text }}
             </label>
         </li>
@@ -11,14 +11,14 @@ Vue.component('task-component', {
 })
 
 Vue.component('card-component', {
-    props: ['card', 'columnIndex'],
+    props: ['card', 'columnIndex', 'isBlocked'],
     template: `
         <div class="card">
             <h3>{{ card.title }}</h3>
             <ul>
-                <task-component v-for="(task, idx) in card.tasks" :key="idx" :task="task" @task-updated="$emit('task-updated')"></task-component>
+                <task-component v-for="(task, idx) in card.tasks" :key="idx" :task="task" :disabled="isBlocked" @task-updated="$emit('task-updated')"></task-component>
             </ul>
-            <button @click="$emit('add-task', columnIndex, card.id)">Добавить пункт</button>
+            <button v-if="!isBlocked && card.tasks.length < 5" @click="$emit('add-task', columnIndex, card.id)">Добавить пункт</button>
         </div>
     `
 })
@@ -37,6 +37,11 @@ new Vue({
                 { title: "В процессе", cards: [] },
                 { title: "Завершенные", cards: [] }
             ]
+        }
+    },
+    computed: {
+        isFirstColumnBlocked() {
+            return this.columns[1].cards.length >= 5
         }
     },
     methods: {
