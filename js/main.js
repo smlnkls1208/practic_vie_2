@@ -47,14 +47,15 @@ new Vue({
     el: '#app',
     data() {
         return {
-            columns: JSON.parse(localStorage.getItem('columns')) || [
+            columns: JSON.parse(localStorage.getItem("columns")) || [
                 {
                     title: "Новые",
                     cards: [
-                        { id: 1, title: "Card 1", tasks: [{ text: "Task 1", completed: false }] }
+                        { id: 1, title: "Card 1", tasks: [{ text: "Task 1", completed: false }, { text: "Task 2", completed: false }, { text: "Task 2", completed: false }] },
+                        { id: 2, title: "Card 2", tasks: [{ text: "Task 3", completed: false }, { text: "Task 4", completed: false }, { text: "Task 5", completed: false }] }
                     ]
                 },
-                { title: "В процессе", cards: [] },
+                { title: "В процессе", cards: [{ id: 3, title: "Card 3", tasks: [{ text: "Task 1", completed: false }, { text: "Task 2", completed: true }, { text: "Task 3", completed: true }] }] },
                 { title: "Завершенные", cards: [] }
             ]
         }
