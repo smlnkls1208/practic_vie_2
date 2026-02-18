@@ -36,7 +36,7 @@ Vue.component('column-component', {
                 :column-index="columnIndex"
                 :is-blocked="isBlocked"
                 @add-task="(colIdx, cardId) => $emit('add-task', colIdx, cardId)"
-                @task-updated="(colIdx, cardId) => $emit('task-updated', colIdx, cardId)">
+                @task-updated="$emit('task-updated', columnIndex, card.id)">
             </card-component>
             <button v-if="columnIndex === 0 && column.cards.length < 3 && !isBlocked" @click="$emit('add-card')">Добавить карточку</button>
         </div>
