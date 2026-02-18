@@ -9,7 +9,14 @@
 </head>
 <body>
 <div id="app">
-    <h1>Канбан доска</h1>
+    <div class="columns">
+        <div v-for="(column, index) in columns" :key="index" class="column">
+            <h2>{{ column.title }}</h2>
+            <div v-for="card in column.cards" :key="card.id" class="card">
+                <h3>{{ card.title }}</h3>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
