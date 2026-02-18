@@ -27,7 +27,7 @@ new Vue({
     el: '#app',
     data() {
         return {
-            columns: [
+            columns: JSON.parse(localStorage.getItem('columns')) || [
                 {
                     title: "Новые",
                     cards: [
@@ -52,6 +52,7 @@ new Vue({
             const card = this.columns[columnIndex].cards.find(c => c.id === cardId)
             if (card && card.tasks.length < 5) {
                 card.tasks.push({ text, completed: false })
+                this.saveData()
             }
         },
         updateColumns(columnIndex, cardId) {
@@ -66,6 +67,7 @@ new Vue({
             } else if (progress === 1) {
                 this.moveCard(columnIndex, cardIdx, 2)
             }
+            this.saveData()
         },
         moveCard(fromIndex, cardIdx, toIndex) {
             const [card] = this.columns[fromIndex].cards.splice(cardIdx, 1)
@@ -73,6 +75,9 @@ new Vue({
                 card.completedAt = new Date().toLocaleString()
             }
             this.columns[toIndex].cards.push(card)
+        },
+        saveData() {
+            localStorage.setItem('columns', JSON.stringify(this.columns))
         }
     }
 })
