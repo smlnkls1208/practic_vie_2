@@ -45,6 +45,25 @@ new Vue({
         }
     },
     methods: {
+        addCard() {
+            const title = prompt('Введите название карточки')
+            if (!title) return
+
+            const tasks = []
+            for (let i = 0; i < 3; i++) {
+                const text = prompt(`Введите задачу ${i + 1}`)
+                if (!text) return
+                tasks.push({ text, completed: false })
+            }
+
+            this.columns[0].cards.push({
+                id: Date.now(),
+                title,
+                tasks,
+                completedAt: null
+            })
+            this.saveData()
+        },
         addTask(columnIndex, cardId) {
             const text = prompt('Введите задачу')
             if (!text) return
