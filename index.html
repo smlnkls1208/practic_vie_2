@@ -14,6 +14,10 @@
             <h2>{{ column.title }}</h2>
             <div v-for="card in column.cards" :key="card.id" class="card">
                 <h3>{{ card.title }}</h3>
+                <ul>
+                    <li v-for="(task, idx) in card.tasks" :key="idx">{{ task.text }}</li>
+                </ul>
+                <button @click="addTask(index, card.id)">Добавить пункт</button>
             </div>
         </div>
     </div>
