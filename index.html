@@ -17,7 +17,8 @@
                 :key="card.id"
                 :card="card"
                 :column-index="index"
-                @add-task="addTask">
+                @add-task="addTask"
+                @task-updated="updateColumns(index, card.id)">
             </card-component>
         </div>
     </div>
