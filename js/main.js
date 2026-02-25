@@ -47,6 +47,7 @@ new Vue({
     el: '#app',
     data() {
         return {
+            searchQuery: '',
             columns: JSON.parse(localStorage.getItem("columns")) || [
                 {
                     title: "Новые",
@@ -63,6 +64,19 @@ new Vue({
     computed: {
         isFirstColumnBlocked() {
             return this.columns[1].cards.length >= 5
+        },
+        filteredColumns() {
+            if (!this.searchQuery.trim()) {
+                return this.columns
+            }
+
+            const query = this.searchQuery.toLowerCase()
+            return this.columns.map(column => ({
+                ...column,
+                cards: column.cards.filter(card =>
+                    card.title.toLowerCase().includes(query)
+                )
+            }))
         }
     },
     methods: {

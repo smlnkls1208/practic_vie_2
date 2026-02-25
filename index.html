@@ -10,9 +10,12 @@
 </head>
 <body>
 <div id="app">
+    <div class="search-container">
+        <input type="text" v-model="searchQuery" placeholder="Поиск по названию карточки..." class="search-input">
+    </div>
     <div class="columns">
         <column-component
-            v-for="(column, index) in columns"
+            v-for="(column, index) in filteredColumns"
             :key="index"
             :column="column"
             :column-index="index"
