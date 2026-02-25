@@ -13,8 +13,8 @@ Vue.component('task-component', {
 Vue.component('card-component', {
     props: ['card', 'columnIndex', 'isBlocked'],
     template: `
-        <div class="card">
-            <h3>{{ card.title }}</h3>
+        <div class="card" :class="{ 'priority-card': card.priority }">
+            <h3>{{ card.title }} <span v-if="card.priority" class="priority-badge">Приоритет</span></h3>
             <ul>
                 <task-component v-for="(task, idx) in card.tasks" :key="idx" :task="task" :disabled="isBlocked || !!card.completedAt" @task-updated="$emit('task-updated')"></task-component>
             </ul>
@@ -25,7 +25,7 @@ Vue.component('card-component', {
 })
 
 Vue.component('column-component', {
-    props: ['column', 'columnIndex', 'isBlocked'],
+    props: ['column', 'columnIndex', 'isBlocked', 'hasPriorityBlock'],
     template: `
         <div class="column">
             <h2>{{ column.title }} ({{ column.cards.length }})</h2>
@@ -34,11 +34,11 @@ Vue.component('column-component', {
                 :key="card.id"
                 :card="card"
                 :column-index="columnIndex"
-                :is-blocked="isBlocked"
+                :is-blocked="isBlocked || (hasPriorityBlock && !card.priority)"
                 @add-task="(colIdx, cardId) => $emit('add-task', colIdx, cardId)"
                 @task-updated="$emit('task-updated', columnIndex, card.id)">
             </card-component>
-            <button v-if="columnIndex === 0 && column.cards.length < 3 && !isBlocked" @click="$emit('add-card')">Добавить карточку</button>
+            <button v-if="columnIndex === 0 && column.cards.length < 3 && !isBlocked && !hasPriorityBlock" @click="$emit('add-card')">Добавить карточку</button>
         </div>
     `
 })
@@ -65,6 +65,11 @@ new Vue({
         isFirstColumnBlocked() {
             return this.columns[1].cards.length >= 5
         },
+        hasPriorityCard() {
+            return this.columns.some(column =>
+                column.cards.some(card => card.priority && !card.completedAt)
+            )
+        },
         filteredColumns() {
             if (!this.searchQuery.trim()) {
                 return this.columns
@@ -84,6 +89,8 @@ new Vue({
             const title = prompt('Введите название карточки')
             if (!title) return
 
+            const isPriority = confirm('Сделать карточку приоритетной? (Все остальные карточки будут заблокированы до её завершения)')
+
             const tasks = []
             for (let i = 0; i < 3; i++) {
                 const text = prompt(`Введите задачу ${i + 1}`)
@@ -95,7 +102,8 @@ new Vue({
                 id: Date.now(),
                 title,
                 tasks,
-                completedAt: null
+                completedAt: null,
+                priority: isPriority
             })
             this.saveData()
         },

@@ -20,6 +20,7 @@
             :column="column"
             :column-index="index"
             :is-blocked="index === 0 && isFirstColumnBlocked"
+            :has-priority-block="hasPriorityCard"
             @add-card="addCard"
             @add-task="addTask"
             @task-updated="updateColumns">

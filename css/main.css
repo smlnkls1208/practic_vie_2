@@ -35,3 +35,15 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.priority-card {
+    background: #fff3cd;
+    border: 3px solid #ff9800;
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+}
+
+.priority-badge {
+    font-size: 14px;
+    color: #ff9800;
+    font-weight: bold;
+}
